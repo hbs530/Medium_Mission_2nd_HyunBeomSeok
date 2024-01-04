@@ -33,13 +33,20 @@ public class Member {
     private LocalDateTime modifyDate;
     private String username;
     private String password;
+    private boolean isPaid; // 추가된 필드
     @Column(unique = true)
     private String refreshToken;
 
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getAuthoritiesAsStringList()
-                .stream()
+        List<String> authorities = getAuthoritiesAsStringList();
+
+        // isPaid가 true이면 ROLE_PAID 권한 추가
+        if (isPaid) {
+            authorities.add("ROLE_PAID");
+        }
+
+        return authorities.stream()
                 .map(SimpleGrantedAuthority::new)
                 .toList();
     }

@@ -18,4 +18,14 @@ public class Post extends BaseTime {
     private String title;
     private String body;
     private boolean published;
+    private boolean isPaid; // 조건 1을 위한 추가 필드
+
+    // ...
+
+    public String getContentForMember(boolean isPaidMember) {
+        if (isPaid && !isPaidMember) {
+            return "이 글은 유료멤버십전용 입니다.";
+        }
+        return body;
+    }
 }
